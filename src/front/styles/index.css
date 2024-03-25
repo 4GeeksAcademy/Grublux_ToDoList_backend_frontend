@@ -1,3 +1,94 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+
+.myDiv {
+
+    border: 2px solid rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 3px 3px 7px rgba(57, 57, 57, 0.43);
+
+}
+
+.listRow {
+    background-color: "bg-light";
+    color: rgb(91, 90, 90)
+}
+
+.listRow:hover {
+    background-color: rgba(255, 254, 254, 0.333);
+    color: rgb(106, 106, 106)
+}
+
+.warning {
+    background-color: rgba(254, 156, 156, 0.227);
+    border-radius: 3px;
+}
+
+.createAccount {
+    color: rgba(29, 1, 1, 0.57);
+}
+
+.createAccount:hover {
+    cursor: pointer;
+    color: rgb(233, 0, 0);
+}
+
+.createAccount2 {
+    color: rgb(85, 84, 84);
+}
+
+.createAccount2:hover {
+    cursor: pointer;
+    color: rgba(255, 0, 0, 0.89);
+}
+
+
+
+.myInput {
+    width: 100%;
+    height: 35px;
+    border: 1px solid rgba(36, 36, 36, 0.112);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+}
+
+.myInput:focus {
+    box-shadow: 0 0 9px rgba(218, 166, 251, 0.777);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgba(36, 36, 36, 0);
+}
+
+.xOut {
+    color: rgba(55, 55, 55, 0.173);
+}
+
+.xOut:hover {
+    cursor: pointer;
+    color: rgb(85, 84, 84);
+}
+
+.asDone {
+    color: rgba(55, 55, 55, 0.173);
+    font-size: 0.89rem;
+}
+
+.asDone:hover {
+    cursor: pointer;
+    color: rgb(85, 84, 84);
+}
+
+.userEmail {
+    color: rgba(55, 55, 55, 0.432);
+}
+
+.logout {
+    color: rgba(55, 55, 55, 0.432);
+}
+
+.logout:hover {
+    cursor: pointer;
+    color: rgb(85, 84, 84);
+}
