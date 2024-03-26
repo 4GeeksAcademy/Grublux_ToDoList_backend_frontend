@@ -122,6 +122,25 @@ def handle_delete_todo(user_id, todo_id):
                 
                 }), 200
 
+@api.route('/todos/user/<int:user_id>/<int:todo_id>/edit', methods=['PUT'])
+
+def handle_edit_task(user_id, todo_id):
+    request_body = request.json
+    update_task = request_body["task"]
+    current_todo = Task.query.get(todo_id)
+    current_todo.task = update_task
+    db.session.commit()
+
+    user_todos = Task.query.filter_by(user_id=user_id)
+
+    updated_todos = list(map(lambda x: x.serialize(), user_todos))
+
+    return jsonify({
+                "msg": f'{current_todo} task has been edited',
+                "results": updated_todos
+                
+                }), 200
+
 # Mark a specific todo ID as "Done"
 @api.route('/todos/user/<int:user_id>/<int:todo_id>', methods=['PUT'])
 

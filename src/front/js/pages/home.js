@@ -13,16 +13,20 @@ export const Home = () => {
 
 	const [inputValue, setInputValue] = useState("")
 
+	const [toggleEdit, setToggleEdit] = useState("")
+
+	const [editInput, setEditInput] = useState("")
+
 	var navigate = useNavigate()
 
 
 
-	const addItem = (item) => {
-		var newList = [...toDo, item];
-		setToDo(newList);
-		setInputValue("");
+	// const addItem = (item) => {
+	// 	var newList = [...toDo, item];
+	// 	setToDo(newList);
+	// 	setInputValue("");
 
-	}
+	// }
 
 	useEffect(() => {
 		// Whatever you code here will execute only after the first time the component renders
@@ -120,11 +124,29 @@ export const Home = () => {
 
 	}
 
+	fetch('https://miniature-capybara-rrrpgrw999jcpjpj-3001.app.github.dev/api/todos/user/<int:user_id>/<int:todo_id>/edit', {
+		method: 'PUT', // or 'POST'
+		body: JSON.stringify(
+			{
+				"task": inputValue
+			}
+		), // data can be a 'string' or an {object} which comes from somewhere further above in our application
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
+		.then(res => {
+			if (!res.ok) throw Error(res.statusText);
+			return res.json();
+		})
+		.then(response => console.log('Success:', response.results))
+		.catch(error => console.error(error));
+
+
 	const handleLogout = () => {
 		setUser({})
 		navigate("/")
 	}
-
 
 
 
@@ -137,6 +159,11 @@ export const Home = () => {
 		var justEmailName = ""
 	}
 
+	const edit = (id, task) => {
+		setEditInput(task)
+		setToggleEdit(id)
+	}
+
 
 
 
@@ -146,11 +173,11 @@ export const Home = () => {
 		<div className="row d-flex justify-content-center">
 			<div className="col-5 bg-light text-center myDiv">
 				<div className="row d-flex justify-content-between text-wrap">
-					<div className="col text-break userEmail text-capitalize fst-italic"
+					<div className="col text-break userEmail text-capitalize fst-italic text-start"
 						style={user.email ? { display: "inline" } : { display: "none" }}>{justEmailName}</div>
 					<div className="col text-break userEmail text-capitalize fst-italic"
 						style={user.email ? { display: "none" } : { display: "block" }}></div>
-					<div className="col text-break logout text-capitalize fst-italic"
+					<div className="col text-break logout text-capitalize fst-italic text-end"
 						style={user.email ? { display: "inline" } : { display: "none" }}
 						onClick={() => handleLogout()}
 					>Logout</div>
@@ -180,13 +207,31 @@ export const Home = () => {
 											className="col-12 py-2 border-top text-start fs-5 listRow px-3 pe-3 text-wrap"
 											style={{ textDecoration: elm.done ? "line-through" : "none" }}
 											key={elm.id}>
-											{elm.task}
+
+											{toggleEdit == elm.id ? <span>
+												<input className="myInput" style={{ width: "50%" }}
+													type="text" onChange={e => setEditInput(e.target.value)} value={editInput}
+													onKeyDown={(e) => {
+														if (e.key === "Enter")
+															addTask(inputValue)
+													}}
+												/>
+											</span>
+												: elm.task}
+
 											<i className="fa-solid fa-square-xmark float-end xOut fs-3"
 												onClick={() => deleteTask(elm.id)}
 											></i>
-											<span className="float-end asDone fs-7 pe-3 me-5 pt-1"
+											<span className="float-end asDone fs-7 pe-3 me-3 pt-1"
 												onClick={() => toggleDone(elm.done, elm.id)}
-											>mark as done</span>
+											>{elm.done ? "Undone" : "Done"}</span>
+											<span className="float-end asDone fs-7 pe-3 me-3 pt-1"
+												onClick={() => edit(elm.id, elm.task)}
+											>{toggleEdit == elm.id ? "" : "edit"}</span>
+											<span className="float-end asDone fs-7 pe-3 me-3 pt-1"
+												onClick={() => edit(elm.id, elm.task)}
+											>{toggleEdit == elm.id ? "confirm edit" : ""}</span>
+
 										</div>
 									</>
 								)
